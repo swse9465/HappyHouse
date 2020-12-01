@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssafy.happyhouse.model.mapper.HouseMapper">
+
+	<select id="getDeal" resultType="HouseDeal">
+		select * from housedeal  
+		<!-- key에 따라 쿼리문이 달라짐 -->
+		<choose>
+			<when test='"apt".equals(key)'>
+				where AptName like '%${word}%'
+			</when>
+			<when test='"dong".equals(key)'>
+				where dong like '%${word}%'
+			</when>
+		</choose>
+		order by no desc
+		limit #{currentPage}, #{sizePerPage}
+	</select>
+	
+	
+	<select id="getInfo" resultType="HouseInfo">
+		select *
+		from houseinfo
+		where AptName=#{aptName} and dong = #{dong}
+<!-- 		where AptName=#{aptName} -->
+	</select>
+	
+	<select id="getTotalCount" resultType="Integer">
+		select count(no) from housedeal
+		<choose>
+			<when test='"apt".equals(key)'>
+				where AptName like '%${word}%'
+			</when>
+			<when test='"dong".equals(key)'>
+				where dong like '%${word}%'
+			</when>
+		</choose>
+	</select>
+	
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.model.mapper.UserMapper">
+
+	<select id="check" resultType="Integer">
+		select EXISTS (select * from userinfo where userid = #{userid} and userpwd = #{userpwd})
+	</select>
+	
+	<select id="login" resultType="UserDto">
+		select * from userinfo where userid =#{userid}
+	</select>
+	
+	<insert id="join" >
+			insert into userinfo values(#{userid}, #{username}, #{userpwd}, #{email}, #{phone}, now())
+	</insert>
+	
+	
+	<update id="modify">
+		update userinfo
+			set
+				userpwd = #{userpwd},
+				username = #{username},
+				email = #{email},
+				phone = #{phone}
+			where
+				userid = #{userid}
+			
+	</update>
+	
+	<delete id="withdrawal">
+		DELETE FROM userinfo WHERE userid LIKE #{userid}
+	</delete>
+	
+	<select id="sendPwd" resultType="String">
+		select userpwd from userinfo
+			where
+				userid = #{userid} and email = #{email}
+				
+	</select>
+	
+	<select id="sendId" resultType="String">
+		select userid from userinfo
+			where
+				username = #{username} and phone = #{phone}
+				
+	</select>
+</mapper>
